@@ -11,6 +11,13 @@ lock_mutex:
         @ INSERT CODE BELOW
 
         @ END CODE INSERT
+	ldr r1, = locked
+.L1:
+	ldr r2, [r0]
+	cmp r2, #0
+	streq r1, [r0]
+	cmpeq r2, #0
+	bne .L1
 	bx lr
 
 	.size lock_mutex, .-lock_mutex
@@ -21,6 +28,8 @@ unlock_mutex:
 	@ INSERT CODE BELOW
         
         @ END CODE INSERT
+	ldr r1, = unlocked
+	str r1, [r0]
 	bx lr
 	.size unlock_mutex, .-unlock_mutex
 
